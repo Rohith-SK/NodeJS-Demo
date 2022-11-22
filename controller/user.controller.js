@@ -1,1 +1,43 @@
-exports.userRegisterController = async (req, res) => {};
+const {
+  userRegister,
+  isEmailExist,
+  isUsernameExit,
+  isPhoneNumberExist,
+} = require("../helper/authorization.helper");
+const { statusResponses } = require("../util/static.util");
+const { responseSuccess, encryptPassword } = require("../util/tools.util");
+
+exports.userRegisterController = async (req, res) => {
+  try {
+    console.log(req.body);
+    const { email, username, phoneNumber, password } = req.body;
+    const [emailExist, usernameExit, phoneNumberExist] = await Promise.all([
+      isEmailExist(email),
+      isUsernameExit(username),
+      isPhoneNumberExist(phoneNumber),
+    ]);
+
+    if (emailExist)
+      throw { ...statusResponses.DATA_EXIST, message: `Email Already exist` };
+    if (usernameExit)
+      throw {
+        ...statusResponses.DATA_EXIST,
+        message: `mobileNo Already exist`,
+      };
+    if (phoneNumberExist)
+      throw {
+        ...statusResponses.DATA_EXIST,
+        message: `userName Already exist`,
+      };
+    const [reg_err, reg_succ] = await userRegister({
+      ...req.body,
+      password: encryptPassword(password),
+    });
+
+    if (reg_err) throw statusResponses.CREATION_FAILED;
+
+    return responseSuccess(res, statusResponses.SUCC_MSG);
+  } catch (error) {
+    console.log(error);
+  }
+};

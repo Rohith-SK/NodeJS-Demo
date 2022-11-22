@@ -12,6 +12,11 @@ const userModel = new mongoose.Schema({
     trim: true,
     required: true,
   },
+  userName: {
+    type: String,
+    trim: true,
+    required: true,
+  },
   phoneNumber: {
     type: String,
     required: true,
@@ -24,7 +29,6 @@ const userModel = new mongoose.Schema({
   confirmPassword: {
     type: String,
     trim: true,
-    required: true,
   },
   isEmailVerified: {
     type: Boolean,
