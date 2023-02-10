@@ -5,6 +5,6 @@ const { registerJoiValidator } = require("../services/user.validator.joi");
 
 const app = express();
 
-app.post("/userRegister", userRegisterValidator, userRegisterController);
+app.post("/userRegister", registerJoiValidator, userRegisterController);
 
 module.exports = app;

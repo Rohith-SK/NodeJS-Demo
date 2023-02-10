@@ -18,16 +18,16 @@ exports.userRegisterController = async (req, res) => {
     ]);
 
     if (emailExist)
-      throw { ...statusResponses.DATA_EXIST, message: `Email Already exist` };
+      throw { ...statusResponses.DATA_EXIST, message: `Email already exist` };
     if (usernameExit)
       throw {
         ...statusResponses.DATA_EXIST,
-        message: `mobileNo Already exist`,
+        message: `Username already exist`,
       };
     if (phoneNumberExist)
       throw {
         ...statusResponses.DATA_EXIST,
-        message: `userName Already exist`,
+        message: `Phone number already exist`,
       };
     const [reg_err, reg_succ] = await userRegister({
       ...req.body,
